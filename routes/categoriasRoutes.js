@@ -9,4 +9,6 @@ router.post('/', CategoriaController.createCategoria);
 
 router.put('/:id', CategoriaController.updateCategoria);
 
+router.delete('/:id', CategoriaController.deleteCategoria);
+
 export default router;

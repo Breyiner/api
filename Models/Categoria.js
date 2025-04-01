@@ -45,6 +45,17 @@ class Categoria {
       throw new Error("Error al actualizar la categoría");
     }
   }
+
+  async delete(id) {
+    try {
+      await connection.query("DELETE FROM categorias WHERE id = ?", [id]);
+      return {
+        id: id
+      };
+    } catch (error) {
+      throw new Error("Error al eliminar la categoría");
+    }
+  }
 };
 
 export default Categoria;

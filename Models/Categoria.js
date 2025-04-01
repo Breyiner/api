@@ -1,7 +1,8 @@
 import connection from "../utils/db.js";
 
 class Categoria {
-  constructor(nombre, descripcion) {
+  constructor(nombre, descripcion, id) {
+    if (id) this.id = id;
     this.nombre = nombre;
     this.descripcion = descripcion;
   }
@@ -29,6 +30,19 @@ class Categoria {
       };
     } catch (error) {
       throw new Error("Error al guardar categoría");
+    }
+  }
+
+  async update() {
+    try {
+      await connection.query("UPDATE categorias SET nombre = ?, descripcion = ? WHERE id = ?", [this.nombre, this.descripcion, this.id]);
+      return {
+        id: this.id,
+        nombre: this.nombre,
+        descripcion: this.descripcion
+      };
+    } catch (error) {
+      throw new Error("Error al actualizar la categoría");
     }
   }
 };

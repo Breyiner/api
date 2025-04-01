@@ -9,4 +9,6 @@ router.post('/', ProductoController.createProducto);
 
 router.put('/:id', ProductoController.updateProducto);
 
+router.delete('/:id', ProductoController.deleteProducto);
+
 export default router;

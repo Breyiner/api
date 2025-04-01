@@ -1,11 +1,12 @@
 import connection from "../utils/db.js";
 
 class Producto {
-  constructor(nombre, descripcion, precio, categoria_id) {
+  constructor(nombre, descripcion, precio, categoria_id, id) {
     this.nombre = nombre;
     this.descripcion = descripcion;
     this.precio = precio;
     this.categoria_id = categoria_id;
+    this.id = id;
   }
 
   /**
@@ -33,6 +34,21 @@ class Producto {
       };
     } catch (error) {
       throw new Error("Error al guardar producto");
+    }
+  }
+
+  async update() {
+    try {
+      await connection.query("UPDATE productos SET nombre = ?, descripcion = ?, precio = ?, categoria_id = ? WHERE id = ?", [this.nombre, this.descripcion, this.precio, this.categoria_id, this.id]);
+      return {
+        id: this.id,
+        nombre: this.nombre,
+        descripcion: this.descripcion,
+        precio: this.precio,
+        categoria_id: this.categoria_id
+      };
+    } catch (error) {
+      throw new Error("Error al actualizar la categoría");
     }
   }
 };

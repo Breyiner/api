@@ -7,4 +7,6 @@ router.get('/', ProductoController.getAllProductos);
 
 router.post('/', ProductoController.createProducto);
 
+router.put('/:id', ProductoController.updateProducto);
+
 export default router;

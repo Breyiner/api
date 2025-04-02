@@ -3,9 +3,8 @@ import bodyParser from "body-parser";
 
 import categoriasRoutes from "./routes/categoriasRoutes.js";
 
-import productosRoutes from "./routes/productosRoutes.js";
-import CategoriaController from "./controller/categoriaController.js";
 
+import productosRoutes from "./routes/productosRoutes.js";
 const app = express();
 
 app.use(bodyParser.json());

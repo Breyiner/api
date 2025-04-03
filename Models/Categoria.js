@@ -33,7 +33,7 @@ class Categoria {
     try {
       const [result] = await connection.query("UPDATE categorias SET nombre = ?, descripcion = ? WHERE id = ?", [nombre, descripcion, id]);
       
-      if (!result.affectedRows) throw new Error("Categoría no encontrada");
+      if (result.affectedRows == 0) throw new Error("Categoría no encontrada");
       return { id, nombre, descripcion };
     } catch (error) {
       throw new Error("Error al actualizar la categoría");
@@ -52,7 +52,7 @@ class Categoria {
 
       const [result] = await connection.query(`UPDATE categorias SET ${comando} WHERE id = ?`, [id]);
       
-      if (!result.affectedRows) throw new Error("Categoría no encontrada");
+      if (result.affectedRows == 0) throw new Error("Categoría no encontrada");
 
     } catch (error) {
       throw new Error("Error al actualizar la categoría");
@@ -61,8 +61,17 @@ class Categoria {
 
   async delete(id) {
     try {
-      const [result] = await connection.query("DELETE FROM categorias WHERE id = ?", [id]);
-      if (!result.affectedRows) throw new Error("Categoría no encontrada");
+
+      const [rows] = await connection.query("SELECT * FROM productos WHERE categoria_id = ?", [id]);
+
+      if(rows.length == 0) {
+        const [result] = await connection.query("DELETE FROM categorias WHERE id = ?", [id]);
+        if (result.affectedRows == 0) throw new Error("Categoría no encontrada");
+      }
+      else throw new Error("No se puede eliminar esta categoría porque tiene productos asocioados.");
+      
+
+      
     } catch (error) {
       throw new Error("Error al eliminar la categoría");
     }

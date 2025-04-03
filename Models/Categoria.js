@@ -20,7 +20,7 @@ class Categoria {
     }
   }
 
-  async create() {
+  async create(nombre, descripcion) {
     try {
       const [result] = await connection.query("INSERT INTO categorias (nombre, descripcion) VALUES (?,?)", [nombre, descripcion]);
       return { id: result.id, nombre, descripcion };
@@ -40,15 +40,15 @@ class Categoria {
     }
   }
 
-  async partialUpdate(id, newData) {
+  async partialUpdate(id, campos) {
     try {
 
       let comando = "";
-      for (const propiedad in newData) {
-        comando += `${propiedad} = "${newData[propiedad]}", `
+      for (const propiedad in campos) {
+        comando += `${propiedad} = "${campos[propiedad]}", `;
       }
 
-      comando = comando.trim().substring(0, comando.length - 1);
+      comando = comando.substring(0, comando.length - 2);
 
       const [result] = await connection.query(`UPDATE categorias SET ${comando} WHERE id = ?`, [id]);
       
@@ -61,10 +61,8 @@ class Categoria {
 
   async delete(id) {
     try {
-      await connection.query("DELETE FROM categorias WHERE id = ?", [id]);
-      return {
-        id: id
-      };
+      const [result] = await connection.query("DELETE FROM categorias WHERE id = ?", [id]);
+      if (!result.affectedRows) throw new Error("Categoría no encontrada");
     } catch (error) {
       throw new Error("Error al eliminar la categoría");
     }

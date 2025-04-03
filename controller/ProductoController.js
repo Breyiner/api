@@ -11,10 +11,10 @@ class ProductoController {
   static createProducto = async (req, res) => {
     
     try {
-      const { nombre, descripcion, precio, Producto_id } = req.body;
+      const { nombre, descripcion, precio, producto_id } = req.body;
     
-      const OBJProducto = new Producto(nombre, descripcion, precio, Producto_id);
-      const producto = await OBJProducto.create();
+      const OBJProducto = new Producto();
+      const producto = await OBJProducto.create(nombre, descripcion, precio, producto_id);
       res.status(201).json(producto);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -24,11 +24,24 @@ class ProductoController {
   static updateProducto = async (req, res) => {
     try {
       const { id } = req.params;
-      const { nombre, descripcion, precio, Producto_id } = req.body;
+      const { nombre, descripcion, precio, producto_id } = req.body;
     
-      const OBJProducto = new Producto(nombre, descripcion, precio, Producto_id, id);
-      const producto = await OBJProducto.update();
+      const OBJProducto = new Producto();
+      const producto = await OBJProducto.update(nombre, descripcion, precio, producto_id, id);
       res.status(201).json(producto);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  static partialUpdateProducto = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const campos = req.body;
+      const OBJProducto = new Producto();
+      await OBJProducto.partialUpdate(id, campos);
+      res.status(201).json("Producto actualizado");
+  
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

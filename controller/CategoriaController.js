@@ -36,10 +36,10 @@ class CategoriaController {
   static partialUpdateCategoria = async (req, res) => {
     try {
       const { id } = req.params;
-      const newData = req.body;
+      const campos = req.body;
       const OBJCategoria = new Categoria();
 
-      await OBJCategoria.partialUpdate(id, newData);
+      await OBJCategoria.partialUpdate(id, campos);
       res.status(201).json("Categoría actualizada");
   
     } catch (error) {

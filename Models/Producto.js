@@ -54,17 +54,21 @@ class Producto {
       
       if (result.affectedRows == 0) throw new Error("Producto no encontrado");
 
+      return {mensaje: "Producto actualizado"};
+
     } catch (error) {
-      throw new Error("Error al actualizar el producto");
+      throw new Error(error);
     }
   }
 
   async delete(id) {
     try {
       const [result] = await connection.query("DELETE FROM productos WHERE id = ?", [id]);
-      if (result.affectedRows == 0) throw new Error("Producto no encontrada");
+      if (result.affectedRows == 0) throw new Error("Producto no encontrado");
+
+      return {mensaje: "Producto Eliminado"};
     } catch (error) {
-      throw new Error("Error al eliminar el producto");
+      throw new Error(error);
     }
   }
 };

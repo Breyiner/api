@@ -39,8 +39,8 @@ class ProductoController {
       const { id } = req.params;
       const campos = req.body;
       const OBJProducto = new Producto();
-      await OBJProducto.partialUpdate(id, campos);
-      res.status(201).json("Producto actualizado");
+      const producto = await OBJProducto.partialUpdate(id, campos);
+      res.status(201).json({mensaje: producto.mensaje});
   
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -53,7 +53,7 @@ class ProductoController {
     
       const OBJProducto = new Producto();
       const producto = await OBJProducto.delete(id);
-      res.status(201).json(producto);
+      res.status(201).json({mensaje: producto.mensaje});
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

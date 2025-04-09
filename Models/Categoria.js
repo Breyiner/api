@@ -20,6 +20,25 @@ class Categoria {
     }
   }
 
+  async getById(id) {
+    try {
+      const [row] = await connection.query("SELECT * FROM categorias WHERE id = ?", [id]);
+      
+      if (row.length == 0) throw new Error("Categoría inexistente.");
+      
+      const [productos] = await connection.query("SELECT * FROM productos WHERE categoria_id = ?", [id]);
+
+      const categoria = row[0];
+
+      categoria.productos = productos;
+
+      return categoria;
+
+    } catch (error) {
+      throw new Error("Error al obtener categoría");
+    }
+  }
+
   async create(nombre, descripcion) {
     try {
       const [result] = await connection.query("INSERT INTO categorias (nombre, descripcion) VALUES (?,?)", [nombre, descripcion]);
